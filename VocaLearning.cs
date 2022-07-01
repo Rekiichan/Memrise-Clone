@@ -42,60 +42,68 @@ namespace memrise_net5
             {
                 Console.Clear();
                 int r = random.Next(0, tempVoca.NumOfVoca);
-                bool valCheckEng = checkEng(r);
-                if (valCheckEng && (EngChecked[r] < 3))
+                if (EngChecked[r] < 3)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("DUNG!");
-                    Console.WriteLine();
-                    tempVoca.list[r].ShowDetail();
-                    EngChecked[r]++;
-                    Console.WriteLine();
-                    Console.WriteLine("--> Press Enter to continue!");
-                    Console.ReadKey();
-                }
-                else if (!valCheckEng)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("SAI!!!!");
-                    Console.WriteLine($"tu do la: {tempVoca.list[r].Eng}");
-                    Console.WriteLine();
-                    Console.WriteLine("--> Press Enter to continue!");
-                    Console.ReadKey();
+                    if (checkEng(r))
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("DUNG!");
+                        Console.WriteLine();
+                        tempVoca.list[r].ShowDetail();
+                        EngChecked[r]++;
+                        Console.WriteLine();
+                        Console.WriteLine("--> Press Enter to continue!");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("SAI!!!!\n");
+                        Console.WriteLine($"------->tu do la: {tempVoca.list[r].Eng}");
+                        Console.WriteLine();
+                        Console.WriteLine("--> Press Enter to continue!");
+                        Console.ReadKey();
+                    }
                 }
                 Console.Clear();
-                bool valCheckViet = checkViet(r);
-                if (valCheckViet && (VietChecked[r] < 3))
+                r = random.Next(0, tempVoca.NumOfVoca);
+                if (VietChecked[r] < 3)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("DUNG!");
-                    Console.WriteLine();
-                    tempVoca.list[r].ShowDetail();
-                    VietChecked[r]++;
-                    Console.WriteLine();
-                    Console.WriteLine("--> Press Enter to continue!");
-                    Console.ReadKey();
+                    if (checkViet(r))
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("DUNG!");
+                        Console.WriteLine();
+                        tempVoca.list[r].ShowDetail();
+                        VietChecked[r]++;
+                        Console.WriteLine();
+                        Console.WriteLine("--> Press Enter to continue!");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("SAI!!!!\n");
+                        Console.WriteLine($"------->tu do la: {tempVoca.list[r].Viet}");
+                        Console.WriteLine();
+                        Console.WriteLine("Press Enter to continue!");
+                        Console.ReadKey();
+                    }
                 }
-                else if (!valCheckViet)
+                
+                for (int i = 0; i < tempVoca.NumOfVoca; i++)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("SAI!!!!");
-                    Console.WriteLine($"tu do la: {tempVoca.list[r].Viet}");
-                    Console.WriteLine();
-                    Console.WriteLine("Press Enter to continue!");
-                    Console.ReadKey();
-                }
-                if ((EngChecked[r] == 3)&&(VietChecked[r] == 3))
-                {
-                    tempVoca.list.RemoveAt(r);
-                    tempVoca.NumOfVoca--;
+                    if ((EngChecked[i] >= 3) && (VietChecked[i] >= 3))
+                    {
+                        tempVoca.list.RemoveAt(i);
+                        tempVoca.NumOfVoca--;
+                    }
                 }
             }
-            tempVoca.DisplayVoca();
         }
         public bool checkEng(int ID)
         {  
-            Console.Write($"nhap nghia tieng anh cua {vocaRepo.list[ID].Viet}  -->    ");
+            Console.Write($"nhap nghia tieng anh cua '{vocaRepo.list[ID].Viet}'  -->    ");
             string check = Console.ReadLine();
             if (check == vocaRepo.list[ID].Eng)
             {
@@ -108,7 +116,7 @@ namespace memrise_net5
         }
         public bool checkViet(int ID)
         {
-            Console.Write($"nhap nghia tieng viet cua {vocaRepo.list[ID].Eng}  -->    ");
+            Console.Write($"nhap nghia tieng viet cua '{vocaRepo.list[ID].Eng}'  -->    ");
             string check = Console.ReadLine();
             if (check == vocaRepo.list[ID].Viet)
             {
